@@ -89,6 +89,13 @@ int parkabove=90;
 int parktop =90;
 int parkclaw = 96;
 
+int PINground =3;
+int PINsec =5;
+int PINtec =9;
+int PINabove =10;
+int PINtop =11;
+int PINclaw =7;
+
 int vccPin = 8;
 color off = color(255, 0, 0);
 color on = color(8, 52, 255);
@@ -114,7 +121,7 @@ public void setup() {
   
 //  String COMx, COMlist = "";
 
-  println(Arduino.list());
+//  println(Arduino.list());
   PFont fontinput = createFont("arial", 14);
   noStroke();
   cp5 = new ControlP5(this);
@@ -160,7 +167,7 @@ public void setup() {
 //test slider
   cp5.addSlider("dreh").setRange(180, 0).setValue(dreh).setPosition(75, 320).setSize(200, 10).getTriggerEvent();
 
-    cp5.addSlider("ground").setRange(150,30).setValue(ground).setNumberOfTickMarks(180).setPosition(75, 555).setSize(470, 30).setVisible(true).getTriggerEvent();      
+    cp5.addSlider("ground").setRange(170,10).setValue(ground).setNumberOfTickMarks(180).setPosition(75, 555).setSize(470, 30).setVisible(true).getTriggerEvent();      
  // cp5.addSlider("ground").setRange(180, 0).setValue(ground).setPosition(75, 565).setSize(470, 30).getTriggerEvent();
  // cp5.addSlider("ground").setRange(150, 30).setValue(ground).setNumberOfTickMarks(120).setPosition(75,565).setSize(470, 30).getTriggerEvent();  
     cp5.addTextfield("groundinput").setPosition(40, 565).setLabel("ground").setSize(30, 30).setFont(fontinput);
@@ -240,19 +247,19 @@ public void setup() {
    }
   
 */
-  //    arduino = new Arduino(this, Arduino.list()[1], 57600);
+ //     println(Arduino.list());
+ //     arduino = new Arduino(this, Arduino.list()[0], 57600);
     arduino = new Arduino(this, "COM4", 57600);
 //    arduino = new Arduino(this, Arduino.list()[1], 57600);
   // arduino = new Arduino(this, "/dev/ttyACM0", 57600);
-  arduino.pinMode(5, Arduino.SERVO); //ground
-  arduino.pinMode(6, Arduino.SERVO);// sec
-  arduino.pinMode(3, Arduino.SERVO);// tec
+  arduino.pinMode(3, Arduino.SERVO); //ground
+  arduino.pinMode(5, Arduino.SERVO);// sec
+  arduino.pinMode(9, Arduino.SERVO);// tec
   arduino.pinMode(11, Arduino.SERVO); //above
   arduino.pinMode(10, Arduino.SERVO); //claw
 //  arduino.pinMode(1, Arduino.SERVO); //ground
   arduino.pinMode(vccPin, Arduino.OUTPUT);
   arduino.digitalWrite(vccPin, Arduino.HIGH);
-
   cp5.setAutoDraw(false);
 }
 
@@ -466,7 +473,7 @@ void draw() {
       for (int q =0; q<bet; q++)
       {
         oground++;
-        arduino.servoWrite(2, oground);
+        arduino.servoWrite(PINground, oground);
        // cp5.getController("ground").setColorActive(77);
         cp5.getController("ground").setUpdate(true);
         cp5.getController("ground").setValue(oground);
@@ -480,7 +487,7 @@ void draw() {
       for (int a= 0; a<wet; a++)
       {
         oground--;
-        arduino.servoWrite(2, oground); 
+        arduino.servoWrite(PINground, oground); 
        // cp5.getController("ground").setColorActive(88);
         cp5.getController("ground").setUpdate(true);
         cp5.getController("ground").setValue(oground);
@@ -494,7 +501,7 @@ void draw() {
       for (int q =0; q<bet; q++)
       {
         osec++;
-        arduino.servoWrite(3, osec); 
+        arduino.servoWrite(PINsec, osec); 
         cp5.getController("sec").setUpdate(true);
         cp5.getController("sec").setValue(osec);
         println(ground +"\t" + osec +"\t"+ tec+ "\t" +above+"\t" + top + "\t"+ claw +"\t");
@@ -507,7 +514,7 @@ void draw() {
       for (int a= 0; a<wet; a++)
       {
         osec--;
-        arduino.servoWrite(3, osec); 
+        arduino.servoWrite(PINsec, osec); 
         cp5.getController("sec").setUpdate(true);
         cp5.getController("sec").setValue(osec);
         println(ground +"\t" + osec +"\t"+ tec+ "\t" +above+"\t" + top + "\t"+ claw +"\t");
@@ -520,7 +527,7 @@ void draw() {
       for (int q =0; q<bet; q++)
       {
         otec++;
-        arduino.servoWrite(4, otec); 
+        arduino.servoWrite(PINtec, otec); 
         cp5.getController("tec").setUpdate(true);
         cp5.getController("tec").setValue(otec);
         println(ground +"\t" + sec +"\t"+ otec+ "\t" +above+"\t" + top + "\t"+ claw +"\t");
@@ -533,7 +540,7 @@ void draw() {
       for (int a= 0; a<wet; a++)
       {
         otec--;
-        arduino.servoWrite(4, otec); 
+        arduino.servoWrite(PINtec, otec); 
         cp5.getController("tec").setUpdate(true);
         cp5.getController("tec").setValue(otec);
         println(ground +"\t" + sec +"\t"+ otec+ "\t" +above+"\t" + top + "\t"+ claw +"\t");
@@ -546,7 +553,7 @@ void draw() {
       for (int q =0; q<bet; q++)
       {
         oabove++;
-        arduino.servoWrite(5, oabove); 
+        arduino.servoWrite(PINabove, oabove); 
         cp5.getController("above").setUpdate(true);
         cp5.getController("above").setValue(oabove);
         println(ground +"\t" + sec +"\t"+ tec+ "\t" +oabove+"\t" + top + "\t"+ claw +"\t");
@@ -559,7 +566,7 @@ void draw() {
       for (int a= 0; a<wet; a++)
       {
         oabove--;
-        arduino.servoWrite(5, oabove); 
+        arduino.servoWrite(PINabove, oabove); 
         cp5.getController("above").setUpdate(true);
         cp5.getController("above").setValue(oabove);
         println(ground +"\t" + sec +"\t"+ tec+ "\t" +oabove+"\t" + top + "\t"+ claw +"\t");
@@ -572,7 +579,7 @@ void draw() {
       for (int q =0; q<bet; q++)
       {
         otop++;
-        arduino.servoWrite(9, otop); 
+        arduino.servoWrite(PINtop, otop); 
         cp5.getController("top").setUpdate(true);
         cp5.getController("top").setValue(otop);
         println(ground +"\t" + sec +"\t"+ tec+ "\t" +above+"\t" + otop + "\t"+ claw +"\t");
@@ -585,7 +592,7 @@ void draw() {
       for (int a= 0; a<wet; a++)
       {
         otop--;
-        arduino.servoWrite(9, otop); 
+        arduino.servoWrite(PINtop, otop); 
         cp5.getController("top").setUpdate(true);
         cp5.getController("top").setValue(otop);
         println(ground +"\t" + sec +"\t"+ tec+ "\t" +above+"\t" + otop + "\t"+ claw +"\t");
@@ -598,7 +605,7 @@ void draw() {
       for (int q =0; q<bet; q++)
       {
         oclaw++;
-        arduino.servoWrite(6, oclaw); 
+        arduino.servoWrite(PINclaw, oclaw); 
         cp5.getController("claw").setUpdate(true);
         cp5.getController("claw").setValue(oclaw);
         println(ground +"\t" + sec +"\t"+ tec+ "\t" +above+"\t" + top + "\t"+ oclaw +"\t");
@@ -613,7 +620,7 @@ void draw() {
       for (int a= 0; a<wet; a++)
       {
         oclaw--;
-        arduino.servoWrite(6, oclaw); 
+        arduino.servoWrite(PINclaw, oclaw); 
         cp5.getController("claw").setUpdate(true);
         cp5.getController("claw").setValue(oclaw);
         println(ground +"\t" + sec +"\t"+ tec+ "\t" +above+"\t" + top + "\t"+ oclaw +"\t");
@@ -784,23 +791,23 @@ public void PARK()
   ground=parkground;
   cp5.getController("ground").setUpdate(true);
   cp5.getController("ground").setValue(ground);
-  delay(1000);
+  delay(500);
   sec =parksec;
   cp5.getController("sec").setUpdate(true);
   cp5.getController("sec").setValue(sec);
-  delay(1000);
+  delay(500);
   tec=parktec;
   cp5.getController("tec").setUpdate(true);
   cp5.getController("tec").setValue(tec);
-  delay(1000);
+  delay(500);
   above =parkabove;
   cp5.getController("above").setUpdate(true);
   cp5.getController("above").setValue(above);
-  delay(1000);
+  delay(500);
   top =parktop;
   cp5.getController("top").setUpdate(true);
   cp5.getController("top").setValue(top);
-  delay(1000);
+  delay(500);
   claw =parkclaw;
   cp5.getController("claw").setUpdate(true);
   cp5.getController("claw").setValue(claw);
@@ -1460,6 +1467,7 @@ void ground(int ground) {
  cp5.getController("ground").setValue(oground);
 }
 */
+
 /*
 //anfang dof
     //servo selbst
