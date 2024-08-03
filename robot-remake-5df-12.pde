@@ -48,7 +48,7 @@ color doftopstroke=#A40000;
 color doftopfill=#00FF61;
 
 
-Serial myPort;        // The serial port
+// Serial myPort;        // The serial port
 //private PeasyCam cam;
 PeasyCam cam;
 
@@ -61,7 +61,7 @@ int c = 0;
 Println console;
 Textarea myTextarea;
 String groundinput, secinput, tecinput, aboveinput, topinput, clawinput, smoothinput;
-int framefps = 500;
+int framefps = 60;
 color myColorBackground =  #FFFFFF;
 //move smooth
 int smomov=15;
@@ -96,8 +96,8 @@ color on = color(8, 52, 255);
 
 
 public void setup() {  
-  size(720, 600,OPENGL);
-  surface.setTitle("arm-rbot-5dof");
+  size(720, 600,P3D);
+  surface.setTitle("arm-robot-5dof");
   //
   surface.setResizable(true);
   //fullScreen(P3D,1);
@@ -112,7 +112,7 @@ public void setup() {
   cam.setMaximumDistance(700);
   //cam.setP
   
-  //String COMx, COMlist = "";
+//  String COMx, COMlist = "";
 
   println(Arduino.list());
   PFont fontinput = createFont("arial", 14);
@@ -158,13 +158,13 @@ public void setup() {
   cp5.addButton("setmov").setPosition(5, 60).setLabel("setmove").setSize(40, 30);
   cp5.addSlider("smomov").setRange(0, 100).setLabel("smooth steps").setValue(smomov).setPosition(45, 60).setSize(100, 30).setVisible(false).getTriggerEvent();    
 //test slider
-  cp5.addSlider("ground").setRange(180, 0).setValue(ground).setNumberOfTickMarks(180).setPosition(75,565).setSize(470, 30).getTriggerEvent();  
   cp5.addSlider("dreh").setRange(180, 0).setValue(dreh).setPosition(75, 320).setSize(200, 10).getTriggerEvent();
 
+    cp5.addSlider("ground").setRange(150,30).setValue(ground).setNumberOfTickMarks(180).setPosition(75, 555).setSize(470, 30).setVisible(true).getTriggerEvent();      
  // cp5.addSlider("ground").setRange(180, 0).setValue(ground).setPosition(75, 565).setSize(470, 30).getTriggerEvent();
-  cp5.addTextfield("groundinput").setPosition(40, 565).setLabel("ground").setSize(30, 30).setFont(fontinput);
-  cp5.addButton("setground").setPosition(5, 565).setSize(30, 30).setLabel("OK").setOn().setId(1);    
-  //cp5.addSlider("ground").setRange(180, 0).setValue(ground).setPosition(75, 365).setSize(470, 30).setId(11).setVisible(false);    
+ // cp5.addSlider("ground").setRange(150, 30).setValue(ground).setNumberOfTickMarks(120).setPosition(75,565).setSize(470, 30).getTriggerEvent();  
+    cp5.addTextfield("groundinput").setPosition(40, 565).setLabel("ground").setSize(30, 30).setFont(fontinput);
+    cp5.addButton("setground").setPosition(5, 565).setSize(30, 30).setLabel("OK").setOn().setId(1);    
 
   cp5.addSlider("sec").setRange(180, 23).setValue(sec).setPosition(50, 285).setSize(30, 195).setVisible(true).getTriggerEvent(); 
   cp5.addTextfield("secinput").setPosition(50, 495).setLabel("").setSize(30, 30).setFont(fontinput);
@@ -203,7 +203,7 @@ public void setup() {
    //cp5.mapKeyFor(new ControlKey() {public void keyEvent() {colEllipse = color(random(255));}}, ALT,'1',SHIFT);  
   cp5.addButton("setall").setPosition(5, 330).setSize(40, 30).setLabel("OK all").setOn().setId(7); 
   
-/*
+/* 
 
        try {
    if(debug) printArray(Serial.list());
@@ -227,18 +227,19 @@ public void setup() {
     //arduino.bufferUntil("\n"); // buffer until CR/LF appears, but not required..
    }
    else {
-   showMessageDialog(jframe,"Device is not connected to the PC");
+   //showMessageDialog(jframe,"Device is not connected to the PC");
+   print("Device is not connected to the PC");
+
    exit();
    }
    }
    catch (Exception e)
    { //Print the type of error
-   showMessageDialog(frame,"COM port is not available (may\nbe in use by another program)");
    println("Error:", e);
    exit();
    }
-   
-   */
+  
+*/
   //    arduino = new Arduino(this, Arduino.list()[1], 57600);
     arduino = new Arduino(this, "COM4", 57600);
 //    arduino = new Arduino(this, Arduino.list()[1], 57600);
