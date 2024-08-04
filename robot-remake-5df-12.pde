@@ -101,11 +101,16 @@ color off = color(255, 0, 0);
 color on = color(8, 52, 255);
 
 
+int groundslider;
+int secslider;
+int tecslider;
+int comslider;
+public int minN = 0;
+public int maxN = 60;
 
 public void setup() {  
-  size(720, 600,P3D);
-  surface.setTitle("arm-robot-5dof");
-  //
+  size(720, 600,P3D); // auflösung h, w , engine
+  surface.setTitle("arm-robot-3dof");
   surface.setResizable(true);
   //fullScreen(P3D,1);
  
@@ -165,19 +170,19 @@ public void setup() {
   cp5.addButton("setmov").setPosition(5, 60).setLabel("setmove").setSize(40, 30);
   cp5.addSlider("smomov").setRange(0, 100).setLabel("smooth steps").setValue(smomov).setPosition(45, 60).setSize(100, 30).setVisible(false).getTriggerEvent();    
 //test slider
-  cp5.addSlider("dreh").setRange(180, 0).setValue(dreh).setPosition(75, 320).setSize(200, 10).getTriggerEvent();
+//  cp5.addSlider("dreh").setRange(180, 0).setValue(dreh).setPosition(75, 320).setSize(200, 10).getTriggerEvent();
 
     cp5.addSlider("ground").setRange(170,10).setValue(ground).setNumberOfTickMarks(180).setPosition(75, 555).setSize(470, 30).setVisible(true).getTriggerEvent();      
  // cp5.addSlider("ground").setRange(180, 0).setValue(ground).setPosition(75, 565).setSize(470, 30).getTriggerEvent();
  // cp5.addSlider("ground").setRange(150, 30).setValue(ground).setNumberOfTickMarks(120).setPosition(75,565).setSize(470, 30).getTriggerEvent();  
-    cp5.addTextfield("groundinput").setPosition(40, 565).setLabel("ground").setSize(30, 30).setFont(fontinput);
-    cp5.addButton("setground").setPosition(5, 565).setSize(30, 30).setLabel("OK").setOn().setId(1);    
+    cp5.addTextfield("groundinput").setPosition(40, 555).setLabel("ground").setSize(30, 30).setFont(fontinput);
+    cp5.addButton("setground").setPosition(5, 555).setSize(30, 30).setLabel("OK").setOn().setId(1);    
 
-  cp5.addSlider("sec").setRange(180, 23).setValue(sec).setPosition(50, 285).setSize(30, 195).setVisible(true).getTriggerEvent(); 
-  cp5.addTextfield("secinput").setPosition(50, 495).setLabel("").setSize(30, 30).setFont(fontinput);
-  cp5.addButton("setsec").setPosition(50, 530).setSize(30, 30).setLabel("OK").setOn().setId(2);
+  cp5.addSlider("sec").setRange(180, 23).setValue(sec).setPosition(50, 265).setSize(30, 195).setVisible(true).getTriggerEvent(); 
+  cp5.addTextfield("secinput").setPosition(50, 475).setLabel("").setSize(30, 30).setFont(fontinput);
+  cp5.addButton("setsec").setPosition(50, 510).setSize(30, 30).setLabel("OK").setOn().setId(2);
 
-  cp5.addSlider("tec").setRange(180, 23).setValue(tec).setPosition(100, 75).setSize(30, 200).setVisible(true).getTriggerEvent();  
+  cp5.addSlider("tec").setRange(180, 0).setValue(tec).setPosition(100, 75).setSize(30, 200).setVisible(true).getTriggerEvent();  
   cp5.addTextfield("tecinput").setLabel("").setPosition(100, 290).setSize(30, 30).setFont(fontinput);
   cp5.addButton("settec").setPosition(100, 325).setSize(30, 30).setLabel("OK").setOn().setId(3);
 
@@ -185,7 +190,7 @@ public void setup() {
   cp5.addTextfield("aboveinput").setPosition(210, 40).setLabel("").setSize(30, 30).setFont(fontinput);
   cp5.addButton("setabove").setPosition(175, 40).setSize(30, 30).setLabel("OK").setOn().setId(4);
 
-  cp5.addSlider("top").setRange(165, 10).setValue(top).setPosition(285, 5).setSize(295, 30).getTriggerEvent(); 
+cp5.addSlider("top").setRange(165, 10).setValue(top).setPosition(285, 5).setSize(295, 30).getTriggerEvent(); 
   cp5.addTextfield("topinput").setPosition(250, 5).setSize(30, 30).setLabel("").setFont(fontinput);
   cp5.addButton("setop").setPosition(215, 5).setSize(30, 30).setLabel("OK").setOn().setId(5);
 
@@ -208,8 +213,28 @@ public void setup() {
 
   // press key 1 and ALT and SHIFT to change the color of circles
    //cp5.mapKeyFor(new ControlKey() {public void keyEvent() {colEllipse = color(random(255));}}, ALT,'1',SHIFT);  
-  cp5.addButton("setall").setPosition(5, 330).setSize(40, 30).setLabel("OK all").setOn().setId(7); 
+  cp5.addButton("setall").setPosition(5, 330).setSize(40, 30).setLabel("OK all").setOn().setId(7);
+
+  // save profiles PIN  n TTY
   
+  cp5.addButton("profiles").setPosition(5, 170).setLabel("Profiles").setSize(40, 20);
+  cp5.addSlider("groundslider", minN, maxN, 90, 415, 128, 20).setDecimalPrecision(1).setVisible(false).setLabel("PIN 4 ground");
+  cp5.addSlider("secslider", minN, maxN, 90, 440, 128, 20).setDecimalPrecision(1).setVisible(false).setLabel("PIN 4 sec");
+  cp5.addSlider("tecslider", minN, maxN, 90, 465, 128, 20).setDecimalPrecision(1).setVisible(false).setLabel("PIN 4 tec");
+  cp5.addSlider("comslider", minN, maxN, 90, 490, 128, 20).setDecimalPrecision(1).setVisible(false).setLabel(" TTY / COM ");
+  cp5.addButton("b1", 0, 288, 415, 80, 24).setLabel("save setA").setColorBackground(color(0, 100, 50)).setVisible(false);
+  cp5.addButton("b2", 0, 369, 415, 80, 24).setLabel("load setA").setColorBackground(color(0, 100, 50)).setVisible(false);
+  cp5.addButton("b5", 0, 288, 463, 80, 24).setCaptionLabel("save setB").setColorBackground(color(255, 100, 50)).setVisible(false);
+  cp5.addButton("b6", 0, 369, 463, 80, 24).setCaptionLabel("load setB").setColorBackground(color(255, 100, 50)).setVisible(false);
+  cp5.addButton("b3", 0, 288, 439, 80, 24).setCaptionLabel("save default").setColorBackground(color(0, 0, 255)).setVisible(false);
+  cp5.addButton("b4", 0, 369, 439, 80, 24).setCaptionLabel("load default").setColorBackground(color(0, 0, 255)).setVisible(false);
+
+   // add a new properties set to some profles 'setA' etc 
+  cp5.getProperties().addSet("setA");
+  cp5.getProperties().addSet("setB");
+  cp5.getProperties().addSet("default");
+  cp5.getProperties().print();
+
 /* 
 
        try {
@@ -252,12 +277,11 @@ public void setup() {
     arduino = new Arduino(this, "COM4", 57600);
 //    arduino = new Arduino(this, Arduino.list()[1], 57600);
   // arduino = new Arduino(this, "/dev/ttyACM0", 57600);
-  arduino.pinMode(3, Arduino.SERVO); //ground
-  arduino.pinMode(5, Arduino.SERVO);// sec
-  arduino.pinMode(9, Arduino.SERVO);// tec
-  arduino.pinMode(11, Arduino.SERVO); //above
-  arduino.pinMode(10, Arduino.SERVO); //claw
-//  arduino.pinMode(1, Arduino.SERVO); //ground
+  arduino.pinMode(PINground, Arduino.SERVO); //ground
+  arduino.pinMode(PINsec, Arduino.SERVO);// sec
+  arduino.pinMode(PINtec, Arduino.SERVO);// tec
+  arduino.pinMode(PINabove, Arduino.SERVO); //above
+  arduino.pinMode(PINclaw, Arduino.SERVO); //claw
   arduino.pinMode(vccPin, Arduino.OUTPUT);
   arduino.digitalWrite(vccPin, Arduino.HIGH);
   cp5.setAutoDraw(false);
@@ -460,6 +484,18 @@ void draw() {
   } else {
     fill(128);
   }
+
+  fill(groundslider);
+  rect(250, 100, 100, 20);
+
+  fill(secslider);
+  rect(250, 150, 100, 20);
+
+  fill(tecslider);
+  rect(250, 200, 100, 20);
+
+  fill(comslider);
+  rect(250, 250, 100, 20);
 
  
  
@@ -1082,8 +1118,71 @@ public void set4l ( )
   cp5.getController("claw").setValue(claw);
 }
 
+public void profiles()
+    {
+      if (true==cp5.getController("b1").isVisible())
+      {
+          cp5.getController("b1").setVisible(false);
+          cp5.getController("b2").setVisible(false);
+          cp5.getController("b3").setVisible(false);
+          cp5.getController("b4").setVisible(false);
+          cp5.getController("b5").setVisible(false);
+          cp5.getController("b6").setVisible(false);
+          cp5.getController("groundslider").setVisible(false);
+          cp5.getController("secslider").setVisible(false);
+          cp5.getController("tecslider").setVisible(false);
+          cp5.getController("comslider").setVisible(false);
+        } 
+      else
+          {
+            cp5.getController("b1").setVisible(true);
+            cp5.getController("b2").setVisible(true);
+            cp5.getController("b3").setVisible(true);
+            cp5.getController("b4").setVisible(true);
+            cp5.getController("b5").setVisible(true);
+            cp5.getController("b6").setVisible(true);
+            cp5.getController("groundslider").setVisible(true);
+            cp5.getController("secslider").setVisible(true);
+            cp5.getController("tecslider").setVisible(true);
+            cp5.getController("comslider").setVisible(true);
+          }
+     }
 
+void b1(float v) {
+  cp5.getProperties().move(cp5.getController("groundslider"), "default", "setA");
+  cp5.getProperties().move(cp5.getController("secslider"), "default", "setA");
+  cp5.getProperties().move(cp5.getController("tecslider"), "default", "setA");
+  cp5.getProperties().move(cp5.getController("comslider"), "default", "setA");
+  cp5.saveProperties("setA", "setA");
+}
 
+void b2(float v) {
+  cp5.loadProperties(("setA"));
+}
+
+void b3(float v) {
+  cp5.getProperties().move(cp5.getController("groundslider"), "default", "default");
+  cp5.getProperties().move(cp5.getController("secslider"), "default", "default");
+  cp5.getProperties().move(cp5.getController("tecslider"), "default", "default");
+  cp5.getProperties().move(cp5.getController("comslider"), "default", "default");
+  cp5.saveProperties("default", "default");
+}
+
+void b4(float v) {
+  cp5.loadProperties(("default.json"));
+}
+
+void b5(float v) {
+  cp5.getProperties().move(cp5.getController("groundslider"), "default", "setB");
+  cp5.getProperties().move(cp5.getController("secslider"), "default", "setB");
+  cp5.getProperties().move(cp5.getController("tecslider"), "default", "setB");
+  cp5.getProperties().move(cp5.getController("comslider"), "default", "setB");
+  cp5.saveProperties("setB", "setB");
+}
+
+void b6(float v) {
+  cp5.loadProperties(("setB"));
+}
 
 
 
