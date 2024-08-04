@@ -722,8 +722,10 @@ public void robot() {
 
 //float radius;
 //this float depth;  
-  rotateX(0);//45 am anfang
-  rotate(0);
+rotateX(-90);//45 am anfang
+rotateY(135);//45 am anfang
+rotateZ(180);//45 am anfang
+rotate(-90);
   noFill();
   stroke(1);
 //  box(200, 200, 10);
