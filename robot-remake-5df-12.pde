@@ -27,7 +27,7 @@ int pts = 120;
 
 color hover = color(0, 230, 150);
 color fillhover = color(199, 3, 255);
-color strokehover  =color(0,0,0);
+color strokehover  =color(238,255,8);
 color moving=#F51119;
 color cvalue=#F51119;
 
@@ -60,7 +60,7 @@ Println console;
 Textarea myTextarea;
 String groundinput, secinput, tecinput, aboveinput, topinput, clawinput, smoothinput;
 int framefps = 60;
-color myColorBackground =  #FFFFFF;
+color myColorBackground =  #000000;
 //move smooth
 int smomov=15;
 int ground = 90;
@@ -468,7 +468,8 @@ void controlEvent(ControlEvent theEvent) {
 
 
 void draw() {
-   background(ControlP5.BLACK);
+  background(255);
+//  background(ControlP5.BLACK);
   // surface.setsize(720, 600, P3D);
 
   if(!location){
@@ -735,14 +736,14 @@ rotateX(-90);//45 am anfang
 rotateY(135);//45 am anfang
 rotateZ(180);//45 am anfang
 rotate(-90);
-  noFill();
-  stroke(1);
+  //noFill();
+  stroke(5);
 //  box(200, 200, 10);
-  fill(#FF9627);
-  noFill();
+  fill(255,255,1);
+//  noFill();
 
-  stroke(#3465A4);
-  strokeWeight(1);
+  stroke(#01FF00);
+  strokeWeight(5);
   ellipse(0, 0, 150, 150);
   //horizont - ebene212
   pushMatrix();
@@ -759,15 +760,15 @@ rotate(-90);
   //pushMatrix();
 //mittel von grundplattform
   translate(0, 0, 25);
-  fill(#BABDB6);
-  stroke(#3465A4);
-  strokeWeight(1);
+  fill(#B6B7BC);
+  stroke(#01FF01);
+  strokeWeight(4);
   box(100, 10, 50);
 
   //browne 
   translate(0,20, -15);
   //groundservo halterung vom ground servo
-  strokeWeight(1);
+  strokeWeight(4);
   fill(#BABDB6);
   stroke(#A40000);
   //unteres element
@@ -1200,13 +1201,13 @@ void b6(float v) {
 
 void drawCylinder( int sides, float r, float h)
 {
-  noStroke();
+    strokeWeight(5);
     float angle = 360 / sides;
     float halfHeight = h / 2;
 
     // draw top of the tube
     beginShape();
-     stroke(1);
+     stroke(5);
 
     for (int i = 0; i < sides; i++) {
         float x = cos( radians( i * angle ) ) * r;
@@ -1225,7 +1226,7 @@ void drawCylinder( int sides, float r, float h)
     endShape(CLOSE);
     
     // draw sides
-     noStroke();
+      strokeWeight(5);
 
     beginShape(TRIANGLE_STRIP);
     for (int i = 0; i < sides + 1; i++) {
@@ -1239,49 +1240,49 @@ void drawCylinder( int sides, float r, float h)
 }
 
 void dofground(){
-                                         //anfang dof
-                                            //servo selbst
-                                         float  crsground = 90* (PI/180);
-                                         fill(cp5.isMouseOver(cp5.getController("ground")) ? hover:color(fillhover) );
-                                        stroke(cp5.isMouseOver(cp5.getController("ground")) ? strokehover:color(dofgroundstroke) );
-                                         box(30, 10, 30 );
-                                         //servo drehpunkt
-                                          strokeWeight(1);
-                                         fill(cp5.isMouseOver(cp5.getController("ground")) ? hover:color(fillhover) );
-                                         stroke(cp5.isMouseOver(cp5.getController("ground")) ? strokehover:color(dofgroundstroke) );
-                                        
-                                          translate(-10,0,-1);
-                                          // box(1,1,32 );
-                                          strokeWeight(1);
-                                         fill(cp5.isMouseOver(cp5.getController("ground")) ? hover:color(fillhover) );
-                                          stroke(cp5.isMouseOver(cp5.getController("ground")) ? strokehover:color(dofgroundstroke) );
-                                        
-                                          //rotateZ(PI);
-                                          
-                                         
-                                          rotateZ(crsground);
-                                            float rad = radians(ground);
-                                          rotateZ(rad * -1);
-                                        // zylynder( 2,17);
-                                             drawCylinder( 30,  2, 40 );
-                                         translate(0,15,19);
-                                         strokeWeight(1);
-                                         fill(cp5.isMouseOver(cp5.getController("ground")) ? hover:color(fillhover) );
-                                        stroke(cp5.isMouseOver(cp5.getController("ground")) ? strokehover:color(dofgroundstroke) );
-                                         box(10,40,2 );
-                                        
-                                         translate(0,19,-19);
-                                         strokeWeight(1);
-                                         fill(cp5.isMouseOver(cp5.getController("ground")) ? hover:color(fillhover) );
-                                         stroke(cp5.isMouseOver(cp5.getController("ground")) ? hover:color(dofgroundstroke) );
-                                         box(10,2,40 ); 
-                                         
-                                         translate(0,-19,-19);
-                                         strokeWeight(1);
-                                         fill(cp5.isMouseOver(cp5.getController("ground")) ? hover:color(fillhover) );
-                                         stroke(cp5.isMouseOver(cp5.getController("ground")) ? strokehover:color(strokehover) );
-                                         box(10,40,2 );
-                                         //ende  dof 
+       //anfang dof
+      //servo selbst
+      strokeWeight(4);
+       float  crsground = 90* (PI/180);
+       fill(cp5.isMouseOver(cp5.getController("ground")) ? hover:color(fillhover) );
+       stroke(cp5.isMouseOver(cp5.getController("ground")) ? strokehover:color(dofgroundstroke) );
+       box(30, 10, 30 );
+       //servo drehpunkt
+      strokeWeight(4);
+       fill(cp5.isMouseOver(cp5.getController("ground")) ? hover:color(fillhover) );
+       stroke(cp5.isMouseOver(cp5.getController("ground")) ? strokehover:color(dofgroundstroke) );
+      translate(-10,0,-1);
+      // box(1,1,32 );
+      strokeWeight(1);
+       fill(cp5.isMouseOver(cp5.getController("ground")) ? hover:color(fillhover) );
+      stroke(cp5.isMouseOver(cp5.getController("ground")) ? strokehover:color(dofgroundstroke) );
+      //rotateZ(PI);
+      rotateZ(crsground);
+      float rad = radians(ground);
+      rotateZ(rad * -1);
+      // zylynder( 2,17);
+      stroke(2, 247, 212);
+      color c = color(2, 255, 0); 
+      fill(c);
+      drawCylinder(30, 4, 42);
+      translate(0,15,19);
+       strokeWeight(4);
+       fill(cp5.isMouseOver(cp5.getController("ground")) ? hover:color(fillhover) );
+       stroke(cp5.isMouseOver(cp5.getController("ground")) ? strokehover:color(dofgroundstroke) );
+       box(10,40,2 );
+      
+       translate(0,19,-19);
+       strokeWeight(4);
+       fill(cp5.isMouseOver(cp5.getController("ground")) ? hover:color(fillhover) );
+       stroke(cp5.isMouseOver(cp5.getController("ground")) ? hover:color(dofgroundstroke) );
+       box(10,2,40 ); 
+       
+       translate(0,-19,-19);
+       strokeWeight(4);
+       fill(cp5.isMouseOver(cp5.getController("ground")) ? hover:color(fillhover) );
+       stroke(cp5.isMouseOver(cp5.getController("ground")) ? strokehover:color(strokehover) );
+       box(10,40,2 );
+       //ende  dof 
    
 }
   
@@ -1544,28 +1545,27 @@ translate(-1,0,3);
 
 popMatrix();
 
-     translate(-45,50,0);
-     //radians(45*PI);
-pushMatrix();
+    translate(-45,50,0);
+    //radians(45*PI);
+    pushMatrix();
     translate(2,-50,3);
-  rotate(radians((-1)*(claw-25)));
-  //  rotateZ(((claw+90)*(-1))*(PI/180));
+    rotate(radians((-1)*(claw-25)));
+    //  rotateZ(((claw+90)*(-1))*(PI/180));
     //rotateZ(90);
-translate(0,0,-2);
+    translate(0,0,-2);
     drawCylinder(18,1,7);                ///gelen´k roter zylindes
-     //blauekiste
+    //blauekiste
     translate(-11,0,1);
-      fill(#FF0D1D);
-   stroke(#2CFF0D);
-   strokeWeight(1);
+    fill(#FF0D1D);
+    stroke(#2CFF0D);
+    strokeWeight(1);
     box(28,3,1);// links weis
     translate(-12,0,-1);
-        stroke(#2CFF0D);
+    stroke(#2CFF0D);
     strokeWeight(1);
     fill(#0D4BFF);   
     drawCylinder(18,1,5);                ///gelen´k roter zylindes
-
-popMatrix();
+    popMatrix();
 
 }
 
