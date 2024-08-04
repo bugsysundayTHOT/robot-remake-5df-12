@@ -48,12 +48,10 @@ color doftopstroke=#A40000;
 color doftopfill=#00FF61;
 
 
-// Serial myPort;        // The serial port
+Serial myPort;        // The serial port
 //private PeasyCam cam;
 PeasyCam cam;
-
 ControlP5 cp5;
-
 Arduino arduino; 
 //console
 int xs, ys, zs;
@@ -118,7 +116,7 @@ public void setup() {
   directionalLight(166, 166, 196, -60, -60, -60);
   ambientLight(105, 105, 130);
   location=false;
-  smooth(233);
+  smooth(8);
   cam = new PeasyCam(this, 700);
   cam.setMinimumDistance(-400);
   cam.setMaximumDistance(700);
@@ -172,7 +170,7 @@ public void setup() {
 //test slider
 //  cp5.addSlider("dreh").setRange(180, 0).setValue(dreh).setPosition(75, 320).setSize(200, 10).getTriggerEvent();
 
-    cp5.addSlider("ground").setRange(170,10).setValue(ground).setNumberOfTickMarks(180).setPosition(75, 555).setSize(470, 30).setVisible(true).getTriggerEvent();      
+    cp5.addSlider("ground").setRange(180,0).setValue(ground).setNumberOfTickMarks(180).setPosition(75, 555).setSize(470, 30).setVisible(true).getTriggerEvent();      
  // cp5.addSlider("ground").setRange(180, 0).setValue(ground).setPosition(75, 565).setSize(470, 30).getTriggerEvent();
  // cp5.addSlider("ground").setRange(150, 30).setValue(ground).setNumberOfTickMarks(120).setPosition(75,565).setSize(470, 30).getTriggerEvent();  
     cp5.addTextfield("groundinput").setPosition(40, 555).setLabel("ground").setSize(30, 30).setFont(fontinput);
@@ -292,9 +290,9 @@ void mousePressed() {
  // campos[] = (float)getPosition();
 //cam.setCenterDragHandler(PeasyDragHandler handler);
 //cam.setCenterDragHandler(PeasyDragHandler handler);
-   // cam. rotateX(ground);
-   //float position[]=cam.getPosition();
- //getLookAt()=cam.getPosition();
+  //cam.(ground);
+    //  float position[]=cam.getPosition();  
+ //getLookAt(int poscen[])=cam.getPosition(CENTER);
   print("position: "+cam.getPosition());
 //print(\t camx "xpos"\t camy"ypos "\t camz"zpos");
 }
@@ -307,12 +305,12 @@ void controlEvent(ControlEvent theEvent) {
     case(1):  
     oground=ground;
     if (groundinput==null)
-      ground=(int)cp5.getController("ground").getValue();
+        ground=(int)cp5.getController("ground").getValue();
     else    
-    {  
-      groundinput= (String)cp5.getController("groundinput").getStringValue();
-      ground= int(groundinput);
-    }
+      {  
+        groundinput= (String)cp5.getController("groundinput").getStringValue();
+        ground= int(groundinput);
+      }
     cp5.getController("ground").setUpdate(true);
     cp5.getController("ground").setValue(ground);
     draw();
@@ -475,7 +473,7 @@ void draw() {
 
   if(!location){
   
-  surface.setLocation(100, 100);
+  surface.setLocation(150, 150);
   location=true;
   }
   
@@ -484,7 +482,8 @@ void draw() {
   } else {
     fill(128);
   }
-
+  
+/*
   fill(groundslider);
   rect(250, 100, 100, 20);
 
@@ -496,7 +495,7 @@ void draw() {
 
   fill(comslider);
   rect(250, 250, 100, 20);
-
+*/
  
  
   if (pground != ground || psec !=sec || ptec !=tec || pabove != above || pclaw != claw)
@@ -513,89 +512,100 @@ void draw() {
        // cp5.getController("ground").setColorActive(77);
         cp5.getController("ground").setUpdate(true);
         cp5.getController("ground").setValue(oground);
-        println(oground +"\t" + sec +"\t"+ tec+ "\t" +above+"\t" + top + "\t"+ claw +"\t");
+        print("Ground POS:");
+        println(oground +"\t");
         delay(smomov);
+
       }
     }
     if (ground<oground)
-    {
-      int wet = oground -ground;
-      for (int a= 0; a<wet; a++)
       {
-        oground--;
-        arduino.servoWrite(PINground, oground); 
-       // cp5.getController("ground").setColorActive(88);
-        cp5.getController("ground").setUpdate(true);
-        cp5.getController("ground").setValue(oground);
-        println(oground +"\t" + sec +"\t"+ tec+ "\t" +above+"\t" + top + "\t"+ claw +"\t");
-        delay(smomov);
+          int wet = oground -ground;
+          for (int a= 0; a<wet; a++)
+              {
+                  oground--;
+                  arduino.servoWrite(PINground, oground); 
+                  cp5.getController("ground").setColorActive(#003BE8);
+                  cp5.getController("ground").setUpdate(true);
+                  cp5.getController("ground").setValue(oground);
+                  print("Ground POS:");
+                  println(oground +"\t");
+                  delay(smomov); 
+              }
       }
-    }
     if (sec> osec)
-    {
-      int bet =sec -osec;
-      for (int q =0; q<bet; q++)
-      {
-        osec++;
-        arduino.servoWrite(PINsec, osec); 
-        cp5.getController("sec").setUpdate(true);
-        cp5.getController("sec").setValue(osec);
-        println(ground +"\t" + osec +"\t"+ tec+ "\t" +above+"\t" + top + "\t"+ claw +"\t");
-        delay(smomov);
-      }
-    }
+        {
+            int bet =sec -osec;
+            for (int q =0; q<bet; q++)
+              {
+                  osec++;
+                  arduino.servoWrite(PINsec, osec); 
+                  cp5.getController("sec").setUpdate(true);
+                  cp5.getController("sec").setValue(osec);
+//                println(ground +"\t" + osec +"\t"+ tec+ "\t" +above+"\t" + top + "\t"+ claw +"\t");
+                  print("sec POS:");
+                  println(osec +"\t");
+                  delay(smomov);                        
+              }
+          }
     if (sec<osec)
-    {
-      int wet = osec -sec;
-      for (int a= 0; a<wet; a++)
-      {
-        osec--;
-        arduino.servoWrite(PINsec, osec); 
-        cp5.getController("sec").setUpdate(true);
-        cp5.getController("sec").setValue(osec);
-        println(ground +"\t" + osec +"\t"+ tec+ "\t" +above+"\t" + top + "\t"+ claw +"\t");
-        delay(smomov);
-      }
-    }   
+        {
+            int wet = osec -sec;
+            for (int a= 0; a<wet; a++)
+                {
+                    osec--;
+                    arduino.servoWrite(PINsec, osec); 
+                    cp5.getController("sec").setUpdate(true);
+                    cp5.getController("sec").setValue(osec);
+                    // println(ground +"\t" + osec +"\t"+ tec+ "\t" +above+"\t" + top + "\t"+ claw +"\t");
+                    print("sec POS:");
+                    println(osec +"\t");
+                    delay(smomov);                   
+              }
+        }
     if (tec> otec)
-    {
-      int bet =tec -otec;
-      for (int q =0; q<bet; q++)
-      {
-        otec++;
-        arduino.servoWrite(PINtec, otec); 
-        cp5.getController("tec").setUpdate(true);
-        cp5.getController("tec").setValue(otec);
-        println(ground +"\t" + sec +"\t"+ otec+ "\t" +above+"\t" + top + "\t"+ claw +"\t");
-        delay(smomov);
-      }
-    }
+        {
+            int bet =tec -otec;
+            for (int q =0; q<bet; q++)
+                {
+                    otec++;
+                    arduino.servoWrite(PINtec, otec); 
+                    cp5.getController("tec").setUpdate(true);
+                    cp5.getController("tec").setValue(otec);
+                    // println(ground +"\t" + sec +"\t"+ otec+ "\t" +above+"\t" + top + "\t"+ claw +"\t");
+                    print("tec POS:");
+                    println(otec +"\t");
+                    delay(smomov);
+                }
+        }
     if (tec < otec)
-    {
-      int wet = otec -tec;
-      for (int a= 0; a<wet; a++)
-      {
-        otec--;
-        arduino.servoWrite(PINtec, otec); 
-        cp5.getController("tec").setUpdate(true);
-        cp5.getController("tec").setValue(otec);
-        println(ground +"\t" + sec +"\t"+ otec+ "\t" +above+"\t" + top + "\t"+ claw +"\t");
-        delay(smomov);
-      }
-    }  
-    if (above> oabove)
-    {
-      int bet =above -oabove;
-      for (int q =0; q<bet; q++)
-      {
-        oabove++;
-        arduino.servoWrite(PINabove, oabove); 
-        cp5.getController("above").setUpdate(true);
-        cp5.getController("above").setValue(oabove);
-        println(ground +"\t" + sec +"\t"+ tec+ "\t" +oabove+"\t" + top + "\t"+ claw +"\t");
-        delay(smomov);
-      }
-    }
+          {
+              int wet = otec -tec;
+              for (int a= 0; a<wet; a++)
+                {
+                  otec--;
+                  arduino.servoWrite(PINtec, otec); 
+                  cp5.getController("tec").setUpdate(true);
+                  cp5.getController("tec").setValue(otec);
+                  //println(ground +"\t" + sec +"\t"+ otec+ "\t" +above+"\t" + top + "\t"+ claw +"\t");
+                  print("tec POS:");
+                  println(otec +"\t");
+                  delay(smomov);
+                }
+          }  
+      if (above> oabove)
+          {
+              int bet =above -oabove;
+              for (int q =0; q<bet; q++)
+                  {
+                    oabove++;
+                    arduino.servoWrite(PINabove, oabove); 
+                    cp5.getController("above").setUpdate(true);
+                    cp5.getController("above").setValue(oabove);
+                    //println(ground +"\t" + sec +"\t"+ tec+ "\t" +oabove+"\t" + top + "\t"+ claw +"\t");
+                    delay(smomov);
+                  }
+          }
     if (above < oabove)
     {
       int wet = oabove -above;
@@ -605,7 +615,7 @@ void draw() {
         arduino.servoWrite(PINabove, oabove); 
         cp5.getController("above").setUpdate(true);
         cp5.getController("above").setValue(oabove);
-        println(ground +"\t" + sec +"\t"+ tec+ "\t" +oabove+"\t" + top + "\t"+ claw +"\t");
+        //println(ground +"\t" + sec +"\t"+ tec+ "\t" +oabove+"\t" + top + "\t"+ claw +"\t");
         delay(smomov);
       }
     } 
@@ -618,7 +628,7 @@ void draw() {
         arduino.servoWrite(PINtop, otop); 
         cp5.getController("top").setUpdate(true);
         cp5.getController("top").setValue(otop);
-        println(ground +"\t" + sec +"\t"+ tec+ "\t" +above+"\t" + otop + "\t"+ claw +"\t");
+        //println(ground +"\t" + sec +"\t"+ tec+ "\t" +above+"\t" + otop + "\t"+ claw +"\t");
         delay(smomov);
       }
     }
@@ -631,7 +641,7 @@ void draw() {
         arduino.servoWrite(PINtop, otop); 
         cp5.getController("top").setUpdate(true);
         cp5.getController("top").setValue(otop);
-        println(ground +"\t" + sec +"\t"+ tec+ "\t" +above+"\t" + otop + "\t"+ claw +"\t");
+        //println(ground +"\t" + sec +"\t"+ tec+ "\t" +above+"\t" + otop + "\t"+ claw +"\t");
         delay(smomov);
       }
     }  
@@ -644,25 +654,23 @@ void draw() {
         arduino.servoWrite(PINclaw, oclaw); 
         cp5.getController("claw").setUpdate(true);
         cp5.getController("claw").setValue(oclaw);
-        println(ground +"\t" + sec +"\t"+ tec+ "\t" +above+"\t" + top + "\t"+ oclaw +"\t");
+        //println(ground +"\t" + sec +"\t"+ tec+ "\t" +above+"\t" + top + "\t"+ oclaw +"\t");
         delay(smomov);
       }
     }
     if (claw < oclaw)
-    {
-      
-      
-      int wet = oclaw -claw;
-      for (int a= 0; a<wet; a++)
-      {
-        oclaw--;
-        arduino.servoWrite(PINclaw, oclaw); 
-        cp5.getController("claw").setUpdate(true);
-        cp5.getController("claw").setValue(oclaw);
-        println(ground +"\t" + sec +"\t"+ tec+ "\t" +above+"\t" + top + "\t"+ oclaw +"\t");
-        delay(smomov);
-      }
-    }  
+        {   
+            int wet = oclaw -claw;
+            for (int a= 0; a<wet; a++)
+              {
+                  oclaw--;
+                  arduino.servoWrite(PINclaw, oclaw); 
+                  cp5.getController("claw").setUpdate(true);
+                  cp5.getController("claw").setValue(oclaw);
+                  // println(ground +"\t" + sec +"\t"+ tec+ "\t" +above+"\t" + top + "\t"+ oclaw +"\t");
+                  delay(smomov);
+              }
+        }  
 
 
     pground=ground;
@@ -674,12 +682,13 @@ void draw() {
     ptec=tec;
     cp5.getController("tec").setUpdate(true);
     cp5.getController("tec").setValue(ptec);
-
     pabove=above;
     cp5.getController("above").setUpdate(true);
     cp5.getController("above").setValue(pabove);
     ptop=top;
+
     pclaw=claw;
+    
   } 
   else{
     println("First start");
@@ -703,7 +712,6 @@ void draw() {
     cp5.getController("claw").setValue(claw);
     start=true;
   }
-
   robot();
   gui();
 }
@@ -722,6 +730,7 @@ public void robot() {
 
 //float radius;
 //this float depth;  
+//sphere(900);  
 rotateX(-90);//45 am anfang
 rotateY(135);//45 am anfang
 rotateZ(180);//45 am anfang
@@ -822,7 +831,8 @@ public void setground(int theValue)
  print("ground: ");
  println(ground);
  draw();
- }*/
+ }
+ */
 
 public void PARK() 
 {
@@ -1229,49 +1239,49 @@ void drawCylinder( int sides, float r, float h)
 }
 
 void dofground(){
- //anfang dof
-    //servo selbst
- float  crsground = 90* (PI/180);
- fill(cp5.isMouseOver(cp5.getController("ground")) ? hover:color(fillhover) );
-stroke(cp5.isMouseOver(cp5.getController("ground")) ? strokehover:color(dofgroundstroke) );
- box(30, 10, 30 );
- //servo drehpunkt
-  strokeWeight(1);
- fill(cp5.isMouseOver(cp5.getController("ground")) ? hover:color(fillhover) );
- stroke(cp5.isMouseOver(cp5.getController("ground")) ? strokehover:color(dofgroundstroke) );
-
-  translate(-10,0,-1);
-  // box(1,1,32 );
-  strokeWeight(1);
- fill(cp5.isMouseOver(cp5.getController("ground")) ? hover:color(fillhover) );
-  stroke(cp5.isMouseOver(cp5.getController("ground")) ? strokehover:color(dofgroundstroke) );
-
-  //rotateZ(PI);
-  
- 
-  rotateZ(crsground);
-    float rad = radians(ground);
-  rotateZ(rad * -1);
-// zylynder( 2,17);
-     drawCylinder( 30,  2, 40 );
- translate(0,15,19);
- strokeWeight(1);
- fill(cp5.isMouseOver(cp5.getController("ground")) ? hover:color(fillhover) );
-stroke(cp5.isMouseOver(cp5.getController("ground")) ? strokehover:color(dofgroundstroke) );
- box(10,40,2 );
-
- translate(0,19,-19);
- strokeWeight(1);
- fill(cp5.isMouseOver(cp5.getController("ground")) ? hover:color(fillhover) );
- stroke(cp5.isMouseOver(cp5.getController("ground")) ? hover:color(dofgroundstroke) );
- box(10,2,40 ); 
- 
- translate(0,-19,-19);
- strokeWeight(1);
- fill(cp5.isMouseOver(cp5.getController("ground")) ? hover:color(fillhover) );
- stroke(cp5.isMouseOver(cp5.getController("ground")) ? strokehover:color(strokehover) );
- box(10,40,2 );
- //ende  dof 
+                                         //anfang dof
+                                            //servo selbst
+                                         float  crsground = 90* (PI/180);
+                                         fill(cp5.isMouseOver(cp5.getController("ground")) ? hover:color(fillhover) );
+                                        stroke(cp5.isMouseOver(cp5.getController("ground")) ? strokehover:color(dofgroundstroke) );
+                                         box(30, 10, 30 );
+                                         //servo drehpunkt
+                                          strokeWeight(1);
+                                         fill(cp5.isMouseOver(cp5.getController("ground")) ? hover:color(fillhover) );
+                                         stroke(cp5.isMouseOver(cp5.getController("ground")) ? strokehover:color(dofgroundstroke) );
+                                        
+                                          translate(-10,0,-1);
+                                          // box(1,1,32 );
+                                          strokeWeight(1);
+                                         fill(cp5.isMouseOver(cp5.getController("ground")) ? hover:color(fillhover) );
+                                          stroke(cp5.isMouseOver(cp5.getController("ground")) ? strokehover:color(dofgroundstroke) );
+                                        
+                                          //rotateZ(PI);
+                                          
+                                         
+                                          rotateZ(crsground);
+                                            float rad = radians(ground);
+                                          rotateZ(rad * -1);
+                                        // zylynder( 2,17);
+                                             drawCylinder( 30,  2, 40 );
+                                         translate(0,15,19);
+                                         strokeWeight(1);
+                                         fill(cp5.isMouseOver(cp5.getController("ground")) ? hover:color(fillhover) );
+                                        stroke(cp5.isMouseOver(cp5.getController("ground")) ? strokehover:color(dofgroundstroke) );
+                                         box(10,40,2 );
+                                        
+                                         translate(0,19,-19);
+                                         strokeWeight(1);
+                                         fill(cp5.isMouseOver(cp5.getController("ground")) ? hover:color(fillhover) );
+                                         stroke(cp5.isMouseOver(cp5.getController("ground")) ? hover:color(dofgroundstroke) );
+                                         box(10,2,40 ); 
+                                         
+                                         translate(0,-19,-19);
+                                         strokeWeight(1);
+                                         fill(cp5.isMouseOver(cp5.getController("ground")) ? hover:color(fillhover) );
+                                         stroke(cp5.isMouseOver(cp5.getController("ground")) ? strokehover:color(strokehover) );
+                                         box(10,40,2 );
+                                         //ende  dof 
    
 }
   
